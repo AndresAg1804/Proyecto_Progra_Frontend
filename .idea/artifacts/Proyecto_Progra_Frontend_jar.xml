@@ -6,7 +6,6 @@
         <element id="module-output" name="Proyecto_Progra_Frontend" />
       </element>
       <element id="library" level="project" name="Proyecto_Progra_Protocol" />
-      <element id="library" level="project" name="Proyecto_Progra_Backend_jar" />
     </root>
   </artifact>
 </component>
