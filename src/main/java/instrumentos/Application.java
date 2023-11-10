@@ -30,22 +30,21 @@ public class Application {
 
         window = new JFrame();
         JTabbedPane tabs = new JTabbedPane();
-        tabs.setBounds(10,10,750,400);
+        tabs.setBounds(10,10,900,500);
         tabs.setBorder(BorderFactory.createTitledBorder("Mantenimientos"));
         tabs.add("Tipos de Instrumento",tiposView.getPanel());
         tabs.add("Instrumentos",InstrumentosView.getPanel());
         tabs.add("Calibraciones",CalibracionesView.getPanel());
         tabs.add("Acerca de",AcercaDeView.getPanel());
-
         JPanel mensajes = MensajesView.getPanel();
         mensajes.setBorder(BorderFactory.createTitledBorder("Mensajes"));
-        mensajes.setBounds(770,10,200,400);
+        mensajes.setBounds(900,10,200,500);
 
         window.setLayout(null);
         window.add(tabs);
         window.add(mensajes);
 
-        window.setSize(900,450);
+        window.setSize(1200,550);
         window.setResizable(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setIconImage((new ImageIcon(Application.class.getResource("presentation/icons/icon.png"))).getImage());
