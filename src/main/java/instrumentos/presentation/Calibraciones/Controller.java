@@ -98,11 +98,9 @@ public class Controller {
             throw new Exception("No hay instrumento seleccionado");
         }
         if (model.getMode() == 1) {
-            //e.setNumero("");
             e.setInstrumento(model.getCurrent().getInstrumento());
             Service.instance().create(e);
-            //model.getCurrent().getInstrumento().getCalibraciones().add(e);
-            model.getCurrent().getInstrumento().getCalibraciones().add(e);
+            model.getCurrent().getInstrumento().getCalibraciones().add((Service.instance().searchCalibracionesByInstrumento(model.getCurrent().getInstrumento().getSerie()).get(Service.instance().searchCalibracionesByInstrumento(model.getCurrent().getInstrumento().getSerie()).size()-1)));
             model.setList(Service.instance().search(new Calibraciones()));
             model.commit();
 
@@ -122,7 +120,7 @@ public class Controller {
         Calibraciones e = model.getCurrent().getInstrumento().getCalibraciones().get(row);
         // Realiza la eliminación en el servicio (void)
         Service.instance().delete(e);
-
+        model.getCurrent().getInstrumento().getCalibraciones().remove(e);
 
         // Actualiza la vista con la lista modificada
         int[] cols = {TableModel.NUMERO, TableModel.FECHA, TableModel.MEDICIONES};
