@@ -37,6 +37,8 @@ public class View implements Observer {
     private JTable list2;
     private JPanel Medi;
     private JLabel instruField;
+    private JTable tableMensajes;
+    private JButton clearMensajes;
 
     public View() {
         delete.setEnabled(false);

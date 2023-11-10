@@ -34,6 +34,8 @@ public class View implements Observer {
     private JLabel nombreLbl;
     private JLabel unidadLbl;
     private JButton clear;
+    private JTable tableMensajes;
+    private JButton clearMensajes;
 
     public View() {
         delete.setEnabled(false);

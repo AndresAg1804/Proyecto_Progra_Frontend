@@ -38,6 +38,8 @@ public class View implements Observer {
     private JTextField maximo;
     private JComboBox tipo;
     private JLabel tipoLbl;
+    private JTable tableMensajes;
+    private JButton clearMensajes;
     private JTable list2;
 
     public View() {
