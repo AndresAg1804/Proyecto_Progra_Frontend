@@ -10,15 +10,6 @@ public class Application {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");}
         catch (Exception ex) {ex.printStackTrace();}
-        window = new JFrame();
-        window.setContentPane(new JTabbedPane());
-//        window.addWindowListener(new WindowAdapter() {
-//            @Override
-//            public void windowClosing(WindowEvent e){
-//                super.windowClosing(e);
-//                Service.instance().stop();
-//            }
-//        });
 
         instrumentos.presentation.tipos.Model tiposModel= new instrumentos.presentation.tipos.Model();
         instrumentos.presentation.tipos.View tiposView = new instrumentos.presentation.tipos.View();
@@ -28,16 +19,31 @@ public class Application {
         instrumentos.presentation.Calibraciones.View CalibracionesView = new instrumentos.presentation.Calibraciones.View();
         instrumentos.presentation.AcercaDe.Model AcercaDeModel = new instrumentos.presentation.AcercaDe.Model();
         instrumentos.presentation.AcercaDe.View AcercaDeView = new instrumentos.presentation.AcercaDe.View();
+        instrumentos.presentation.Mensajes.Model MensajesModel = new instrumentos.presentation.Mensajes.Model();
+        instrumentos.presentation.Mensajes.View MensajesView = new instrumentos.presentation.Mensajes.View();
 
         tiposController = new instrumentos.presentation.tipos.Controller(tiposView,tiposModel);
         InstrumentosController = new instrumentos.presentation.Instrumentos.Controller(InstrumentosView,InstrumentosModel);
         CalibracionesController = new instrumentos.presentation.Calibraciones.Controller(CalibracionesView,CalibracionesModel);
         AcercaDeController = new instrumentos.presentation.AcercaDe.Controller(AcercaDeView,AcercaDeModel);
+        MensajesController = new instrumentos.presentation.Mensajes.Controller(MensajesView,MensajesModel);
 
-        window.getContentPane().add("Tipos de Instrumento",tiposView.getPanel());
-        window.getContentPane().add("Instrumentos",InstrumentosView.getPanel());
-        window.getContentPane().add("Calibraciones",CalibracionesView.getPanel());
-        window.getContentPane().add("Acerca de",AcercaDeView.getPanel());
+        window = new JFrame();
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.setBounds(10,10,750,400);
+        tabs.setBorder(BorderFactory.createTitledBorder("Mantenimientos"));
+        tabs.add("Tipos de Instrumento",tiposView.getPanel());
+        tabs.add("Instrumentos",InstrumentosView.getPanel());
+        tabs.add("Calibraciones",CalibracionesView.getPanel());
+        tabs.add("Acerca de",AcercaDeView.getPanel());
+
+        JPanel mensajes = MensajesView.getPanel();
+        mensajes.setBorder(BorderFactory.createTitledBorder("Mensajes"));
+        mensajes.setBounds(770,10,200,400);
+
+        window.setLayout(null);
+        window.add(tabs);
+        window.add(mensajes);
 
         window.setSize(900,450);
         window.setResizable(true);
@@ -54,6 +60,9 @@ public class Application {
     public static instrumentos.presentation.Calibraciones.Controller CalibracionesController;
 
     public static instrumentos.presentation.AcercaDe.Controller AcercaDeController;
+
+    public static instrumentos.presentation.Mensajes.Controller MensajesController;
+
     public static JFrame window;
 
     public final static int MODE_CREATE =1;

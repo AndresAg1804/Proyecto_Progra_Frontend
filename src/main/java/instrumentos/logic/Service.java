@@ -6,10 +6,17 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-public class Service implements IService {  // PROXY
+public class Service implements IService, IListener {  // PROXY
     private static Service theInstance;
-    public static Service instance(){
+    public static IService instance(){
         if (theInstance==null){ 
+            theInstance=new Service();
+        }
+        return theInstance;
+    }
+
+    public static IListener instanceListener(){
+        if (theInstance==null){
             theInstance=new Service();
         }
         return theInstance;
@@ -17,6 +24,8 @@ public class Service implements IService {  // PROXY
 
 
     ObjectSocket os = null;
+    ObjectSocket as = null;
+    ITarget target;
 
     public Service() {
         try{ this.connect();}
@@ -24,12 +33,15 @@ public class Service implements IService {  // PROXY
     }
 
     private void connect() throws Exception{
-        Socket skt;
-        skt = new Socket(Protocol.SERVER,Protocol.PORT);
-        os = new ObjectSocket(skt);
+        os = new ObjectSocket(new Socket(Protocol.SERVER,Protocol.PORT));
+        os.out.writeInt(Protocol.SYNC);
+        os.out.flush();
+        os.sid = (String) os.in.readObject();   // stores returned session ID
     }
 
     private void disconnect() throws Exception{
+        os.out.writeInt(Protocol.DISCONNECT);
+        os.out.flush();
         os.skt.shutdownOutput();
         os.skt.close();
     }
@@ -261,5 +273,80 @@ public class Service implements IService {  // PROXY
 
     // LISTENING FUNCTIONS
 
+    boolean continuar = true;
+    public void startListening(){
+        try{
+            as = new ObjectSocket(new Socket(Protocol.SERVER, Protocol.PORT));
+            as.sid = os.sid;
+            as.out.writeInt(Protocol.ASYNC);
+            as.out.writeObject(as.sid);
+            as.out.flush();
+        } catch(IOException e) {System.out.println("error");}
+
+        Thread t = new Thread(new Runnable(){
+            public void run(){
+                listen();
+            }
+        });
+
+        continuar = true;
+        t.start();
+    }
+
+    public void stopListening(){
+        continuar=false;
+    }
+
+    public void listen(){
+        int method;
+        while (continuar) {
+            try {
+                method = as.in.readInt();
+                switch(method){
+                    case Protocol.DELIVER:
+                        try {
+                            Message message=(Message)as.in.readObject();
+                            deliver(message);
+                        } catch (ClassNotFoundException ex) {}
+                        break;
+                }
+            } catch (IOException  ex) {
+                continuar = false;
+            }
+        }
+        // cerrar socket y streams
+        try{
+            as.skt.shutdownOutput();
+            as.skt.close();
+        } catch(IOException e) {}
+    }
+
+    private void deliver( final Message message ){
+        SwingUtilities.invokeLater(new Runnable() {
+                                       public void run() {
+                                           target.deliver(message);
+                                       }
+                                   }
+        );
+    }
+
+    @Override
+    public void addTarget(ITarget target){
+        this.target=target;
+    }
+
+    @Override
+    public void start(){
+        this.startListening();
+    }
+
+    @Override
+    public void stop(){
+        this.stopListening();
+        try{
+            this.disconnect();
+        } catch(Exception e){
+        }
+    }
 
 }
