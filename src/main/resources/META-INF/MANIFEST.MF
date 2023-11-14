@@ -1,6 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: 
-Class-Path: Proyecto_Progra_Protocol.jar protobuf-java-3.11.4.jar Proyec
- to_Progra_Backend.jar Proyecto_Progra_Protocol.jar mysql-connector-java
- -8.0.21.jar
+Class-Path: Proyecto_Progra_Protocol.jar itextpdf-5.5.13.3.jar
 
