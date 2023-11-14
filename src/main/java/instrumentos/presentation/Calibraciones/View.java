@@ -103,7 +103,7 @@ public class View implements Observer {
                 Date fechaActual = new Date();
                 String fechaActualFormateada = dateFormat.format(fechaActual);
                 fecha.setText(fechaActualFormateada);
-                //numero.setText("0");
+
                 Calibraciones filter = new Calibraciones(model.getCurrent().getInstrumento(),fecha.getText(),Integer.parseInt(mediciones.getText()));
 
                 try {

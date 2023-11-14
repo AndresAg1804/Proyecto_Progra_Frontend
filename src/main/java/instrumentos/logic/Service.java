@@ -314,7 +314,7 @@ public class Service implements IService, IListener {  // PROXY
                 continuar = false;
             }
         }
-        // cerrar socket y streams
+
         try{
             as.skt.shutdownOutput();
             as.skt.close();
@@ -323,10 +323,10 @@ public class Service implements IService, IListener {  // PROXY
 
     private void deliver( final Message message ){
         SwingUtilities.invokeLater(new Runnable() {
-                                       public void run() {
+            public void run() {
                                            target.deliver(message);
                                        }
-                                   }
+        }
         );
     }
 

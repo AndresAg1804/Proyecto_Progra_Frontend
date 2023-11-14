@@ -7,9 +7,6 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class TableModelMediciones extends AbstractTableModel implements javax.swing.table.TableModel {
-
-    //Instrumento inst;
-
     Calibraciones cali;
     List<Mediciones> rows;
     int[] cols;

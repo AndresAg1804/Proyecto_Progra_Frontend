@@ -35,7 +35,6 @@ public class Controller {
         if(filter==null){
             instru.setCalibraciones(existentes);
             model.setList(existentes);
-            //model.setCurrent(existentes.get(0));
             model.commit();
             return;
         }
@@ -70,7 +69,6 @@ public class Controller {
     public void edit(int row) throws Exception {
         model.setMode(Application.MODE_EDIT);
         Calibraciones e = model.getCurrent().getInstrumento().getCalibraciones().get(row);
-       // model.setCurrent(Service.instance().read(e));
         model.setInstrumento(model.getCurrent().getInstrumento());
         e.setInstrumento(model.getCurrent().getInstrumento());
         model.setCurrent(e);
@@ -130,8 +128,6 @@ public class Controller {
     }
 
     public String shown() {
-        //model.setInstrumento();
-
         String textoInstrumento;
 
         List<Calibraciones> calibracionesDelInstrumento = Service.instance().searchCalibracionesByInstrumento(model.getCurrent().getInstrumento().getSerie());
@@ -152,7 +148,6 @@ public class Controller {
     }
 
     public void clear() {
-        //model.setCurrent(new Calibraciones());
         model.setMode(Application.MODE_CREATE);
         model.commit();
     }
